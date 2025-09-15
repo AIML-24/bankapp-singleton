@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Singleton Pattern Demo - AppConfig</title>
+</head>
+<body>
+    <h1>Singleton Pattern Demo: AppConfig</h1>
+    <button onclick="createAppConfig()">Create AppConfig</button>
+    <button onclick="showAppConfig()">Show AppConfig</button>
+    <div id="output"></div>
+
+    <script>
+        // Singleton Class
+        class AppConfig {
+            constructor() {
+                if (AppConfig.instance) {
+                    return AppConfig.instance;
+                }
+                this.currency = "INR";
+                this.taxRate = 0.18;
+                this.discount = 0.10;
+                AppConfig.instance = this;
+            }
+
+            setConfig(currency, taxRate, discount) {
+                this.currency = currency;
+                this.taxRate = taxRate;
+                this.discount = discount;
+            }
+
+            getConfig() {
+                return {
+                    currency: this.currency,
+                    taxRate: this.taxRate,
+                    discount: this.discount
+                };
+            }
+        }
+
+        // Demonstration
+        let config1, config2;
+
+        function createAppConfig() {
+            config1 = new AppConfig();
+            config1.setConfig("USD", 0.07, 0.05); // Set initial configuration
+            config2 = new AppConfig(); // Even if we create again, it refers to the same instance
+            document.getElementById('output').innerHTML = "AppConfig instances created.";
+        }
+
+        function showAppConfig() {
+            const conf1 = config1.getConfig();
+            const conf2 = config2.getConfig();
+
+            let output = "<h3>Config 1</h3>";
+            output += `<p>Currency: ${conf1.currency}</p>`;
+            output += `<p>Tax Rate: ${conf1.taxRate}</p>`;
+            output += `<p>Discount: ${conf1.discount}</p>`;
+
+            output += "<h3>Config 2</h3>";
+            output += `<p>Currency: ${conf2.currency}</p>`;
+            output += `<p>Tax Rate: ${conf2.taxRate}</p>`;
+            output += `<p>Discount: ${conf2.discount}</p>`;
+
+            output += `<p>Are config1 and config2 the same instance? ${config1 === config2}</p>`;
+
+            document.getElementById('output').innerHTML = output;
+        }
+    </script>
+</body>
+</html>
